@@ -1,19 +1,19 @@
 import mapboxgl from 'mapbox-gl';
-import { ActionsI, actionTypes, HexMessageTypeI } from '../geo';
-import HexWorker from '../geo/index?worker';
+import { ActionsI, actionTypes, HexMessageTypeI } from '../grid';
+import HexWorker from 'web-worker:../geo/index?worker';
 
 export class HexService {
   constructor() {
+    this.worker = new HexWorker();
     this.init();
   }
   private layer = 19;
   private worker: Worker;
-  private msgQueue: { [key: string]: { resolve: (any) => any } } = {};
+  private msgQueue: { [key: string]: { resolve: (arg: any) => any } } = {};
   public setLayer(layer: number) {
     this.layer = layer;
   }
   public init() {
-    this.worker = new HexWorker();
     this.worker.onmessage = (e) => {
       console.log(
         'worker call done:',

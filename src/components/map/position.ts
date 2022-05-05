@@ -5,8 +5,8 @@ export class PositionControl {
     this.map = map;
   }
   map: mapboxgl.Map;
-  currentPosition: [number, number];
-  watchId: number;
+  currentPosition!: [number, number];
+  watchId!: number;
 
   listenPostion = (): Promise<void> => {
     // 监听位置变化，地图跟随

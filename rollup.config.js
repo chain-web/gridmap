@@ -2,6 +2,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
 import dts from "rollup-plugin-dts";
+import workerLoader from 'rollup-plugin-web-worker-loader';
 
 const packageJson = require("./package.json");
 
@@ -23,6 +24,7 @@ export default [
     plugins: [
       resolve(),
       commonjs(),
+      workerLoader(),
       typescript({ tsconfig: "./tsconfig.json" }),
     ],
   },

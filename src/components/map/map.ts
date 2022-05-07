@@ -1,8 +1,7 @@
 import mapboxgl from "mapbox-gl";
-// import { mapBoxPk } from '../config';
 import { PositionControl } from "./position";
 
-interface MapOption {
+export interface MapOption {
   zoom?: number;
   rightBottomText?: string;
   mapBoxPk: string;

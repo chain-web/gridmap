@@ -1,22 +1,9 @@
-import { Hex } from './lib/grid/Hex';
+import { actionTypes, HexMessageI, HexMessageTypeI } from './interface';
 import { HexUtil } from './lib/HexUtil';
 
 console.log('worker ------ init');
 
-export type HexItem = ReturnType<Hex['toJson']>;
 
-export enum HexMessageTypeI {
-  hexAction = 'hexAction',
-}
-
-export interface HexMessageI<T extends actionTypes> {
-  action: T;
-  key: string;
-  type: HexMessageTypeI;
-  data: Parameters<ActionsI[T]>[0];
-}
-export type ActionsI = typeof actions;
-export type actionTypes = keyof ActionsI;
 
 const postMsg = <T extends actionTypes>(
   action: T,
@@ -63,3 +50,5 @@ const actions = {
     return HexUtil.getHexByLngLat(data.lng, data.lat, data.layer);
   },
 };
+
+export type ActionsI = typeof actions;

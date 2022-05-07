@@ -1,10 +1,10 @@
-import mapboxgl from 'mapbox-gl';
-import { ActionsI, actionTypes, HexMessageTypeI } from '../grid';
-import HexWorker from 'web-worker:../geo/index?worker';
+import type { ActionsI } from "../../grid";
+import mapboxgl from "mapbox-gl";
+import { actionTypes, HexMessageTypeI } from "../../grid/interface";
 
 export class HexService {
-  constructor() {
-    this.worker = new HexWorker();
+  constructor(worker: Worker) {
+    this.worker = worker;
     this.init();
   }
   private layer = 19;
@@ -16,10 +16,10 @@ export class HexService {
   public init() {
     this.worker.onmessage = (e) => {
       console.log(
-        'worker call done:',
+        "worker call done:",
         e.data.action,
-        ', use time:',
-        Date.now() - e.data.key,
+        ", use time:",
+        Date.now() - e.data.key
       );
       const { action, key, data } = e.data;
       if (this.msgQueue[key]) {
@@ -43,7 +43,7 @@ export class HexService {
   private genPostMsgData<T extends actionTypes>(
     key: string,
     action: T,
-    data: Parameters<ActionsI[T]>[0],
+    data: Parameters<ActionsI[T]>[0]
   ) {
     return {
       key,
@@ -60,7 +60,7 @@ export class HexService {
    */
   public async postMsg<T extends actionTypes>(
     action: T,
-    data: Parameters<ActionsI[T]>[0],
+    data: Parameters<ActionsI[T]>[0]
   ): Promise<ReturnType<ActionsI[T]>> {
     const key = this.genMessageKey();
     this.worker.postMessage(this.genPostMsgData(key, action, data));
@@ -80,7 +80,7 @@ export class HexService {
    */
   public async genCurHex(LngLat: number[], radius: number = 220) {
     // const list = HexUtil.circle2Hex(LngLat[0], LngLat[1], 2000, 17);
-    const list = await this.postMsg('getHexByCycle', {
+    const list = await this.postMsg("getHexByCycle", {
       lng: LngLat[0],
       lat: LngLat[1],
       layer: this.layer,
@@ -90,7 +90,7 @@ export class HexService {
   }
 
   public async genHexByLngLat(LngLat: mapboxgl.LngLat) {
-    const list = await this.postMsg('getHexByLngLat', {
+    const list = await this.postMsg("getHexByLngLat", {
       lng: LngLat.lng,
       lat: LngLat.lat,
       layer: this.layer,
@@ -98,5 +98,3 @@ export class HexService {
     return list;
   }
 }
-
-export const hexService = new HexService();

@@ -1,6 +1,5 @@
 import type { ActionsI } from './';
-import { Hex } from './lib/grid/Hex';
-export type HexItem = ReturnType<Hex['toJson']>;
+export type { HexItem } from './lib/grid/Hex';
 
 export enum HexMessageTypeI {
   hexAction = 'hexAction',

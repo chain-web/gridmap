@@ -35,3 +35,5 @@ export class Hex {
     };
   }
 }
+
+export type HexItem = ReturnType<Hex['toJson']>;

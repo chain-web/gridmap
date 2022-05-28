@@ -1,3 +1,11 @@
+/**
+ * @description 获取一个四边形的距离
+ * @param lat1 
+ * @param lng1 
+ * @param lat2 
+ * @param lng2 
+ * @returns 
+ */
 export const getBoundDistance = (lat1: number, lng1: number, lat2: number, lng2: number) => {
   var radLat1 = (lat1 * Math.PI) / 180.0;
   var radLat2 = (lat2 * Math.PI) / 180.0;
